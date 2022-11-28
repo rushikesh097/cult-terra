@@ -19,4 +19,12 @@ router.get("/getcustomer/:roomNo", (req,res) => {
     .catch((err) => console.log(err));
 })
 
+router.delete("/deletecustomer/:id", (req,res) => {
+    Customer.findByIdAndRemove(req.params.id)
+    .then((result) => {
+        res.send(result)
+    })
+    .catch(err => console.log(err));
+})
+
 module.exports = router;

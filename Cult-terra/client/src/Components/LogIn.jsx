@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react';
+import axios from 'axios'
 
 const LogIn = (props) => {
 
@@ -8,13 +9,31 @@ const LogIn = (props) => {
     password: ""
   })
 
-  const [msg,setMsg] = useState("hello")
+  const [msg,setMsg] = useState("")
 
   const handleChange = (e) => {
     e.preventDefault();
+    setMsg("")
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-    console.log(user);
   }
+
+  const checkValidity = (e) => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:5000/user/validateuser`, {
+        email: user.email,
+        password: user.password,
+      })
+      .then((response) => {
+        console.log(response);
+        props.setIsOnDashboard(response.data.count === 1);
+        setMsg(response.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        setMsg(err.message);
+      });
+  };
 
   return (
     <div>
@@ -60,7 +79,7 @@ const LogIn = (props) => {
               <button
                 className="bg-indigo-900 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
-                // onClick={checkValidity}
+                onClick={checkValidity}
               >
                 Sign In
               </button>

@@ -1,6 +1,45 @@
-import React from 'react'
+import React, {useState} from 'react'
+import axios from "axios"
 
 const SignUp = (props) => {
+
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [msg, setMsg] = useState("");
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setMsg("");
+    setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const addUser = (e) => {
+    e.preventDefault();
+    if(user.name!=="" && user.email!=="" && user.password!==""){
+      axios
+        .post(`http://localhost:5000/user/adduser`, {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+        })
+        .then((response) => {
+          console.log(response);
+          props.setIsOnDashboard(true);
+          setMsg(response.data.message);
+        })
+        .catch((err) => {
+          console.log(err);
+          setMsg(err.message);
+        });
+        return;
+    }
+    setMsg("Fill all data !");
+  };
+
   return (
     <div>
       <div className="flex justify-center mt-20">
@@ -17,7 +56,7 @@ const SignUp = (props) => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-900"
                 type={"text"}
                 name={"name"}
-                // onChange={handleChange}
+                onChange={handleChange}
                 id="name"
                 placeholder="Name"
               />
@@ -33,7 +72,7 @@ const SignUp = (props) => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-900"
                 type={"email"}
                 name={"email"}
-                // onChange={handleChange}
+                onChange={handleChange}
                 id="email"
                 placeholder="E-Mail"
               />
@@ -50,11 +89,11 @@ const SignUp = (props) => {
                 id="password"
                 type={"password"}
                 name={"password"}
-                // onChange={handleChange}
+                onChange={handleChange}
                 placeholder="******************"
               />
               <p className="text-red-500 text-xs italic">
-                {/* {!isValid ? msg : ""} */}
+                {msg}
               </p>
             </div>
 
@@ -65,7 +104,7 @@ const SignUp = (props) => {
               <button
                 className="bg-indigo-900 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
-                // onClick={addUser}
+                onClick={addUser}
               >
                 Sign Up
               </button>

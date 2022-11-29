@@ -1,7 +1,6 @@
 import React from 'react'
 
-const LogIn = (props) => {
-
+const SignUp = (props) => {
   return (
     <div>
       <div className="flex justify-center mt-20">
@@ -10,16 +9,32 @@ const LogIn = (props) => {
             <div className="mb-6">
               <label
                 className="block text-indigo-900 text-sm font-bold mb-6"
+                htmlFor="=name"
+              >
+                Name
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-900"
+                type={"text"}
+                name={"name"}
+                // onChange={handleChange}
+                id="name"
+                placeholder="Name"
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                className="block text-indigo-900 text-sm font-bold mb-6"
                 htmlFor="email"
               >
                 E-Mail
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900 "
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-900"
                 type={"email"}
                 name={"email"}
                 // onChange={handleChange}
-                id="emaipl"
+                id="email"
                 placeholder="E-Mail"
               />
             </div>
@@ -31,7 +46,7 @@ const LogIn = (props) => {
                 Password
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 mb-3 leading-tight focus:outline-none focus:border-indigo-900"
+                className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-indigo-900"
                 id="password"
                 type={"password"}
                 name={"password"}
@@ -42,22 +57,29 @@ const LogIn = (props) => {
                 {/* {!isValid ? msg : ""} */}
               </p>
             </div>
-            <div className="flex items-center justify-between">
+
+            <div
+              className="flex items-center gap-2
+          sm:gap-0 justify-between"
+            >
               <button
                 className="bg-indigo-900 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
-                // onClick={checkValidity}
+                // onClick={addUser}
               >
-                Sign In
+                Sign Up
               </button>
               <button
-                className="inline-block align-baseline font-bold sm:text-sm text-indigo-900 hover:text-indigo-700 cursor-pointer text-xs"
+                className="inline-block align-baseline font-bold text-indigo-900
+              sm:text-sm
+              sm:ml-1
+              hover:text-indigo-700 cursor-pointer text-xs"
                 onClick={() => {
-                  // setText("Log In");
-                  props.setIsOnLogin(isOnLogin => !isOnLogin);
+                  // setText("Sign Up");
+                  props.setIsOnLogin((isOnLogin) => !isOnLogin);
                 }}
               >
-                Don't have account ?
+                Already have account ?
               </button>
             </div>
           </form>
@@ -65,6 +87,6 @@ const LogIn = (props) => {
       </div>
     </div>
   );
-}
+};
 
-export default LogIn
+export default SignUp

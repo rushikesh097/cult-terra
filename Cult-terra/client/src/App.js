@@ -8,7 +8,7 @@ function App() {
   const [isOnDashboard,setIsOnDashboard] = useState(false);
 
   return (
-    <div className="App">
+    <div>
       {
         isOnDashboard ?
         <Dashboard setIsOnDashboard={setIsOnDashboard} /> :

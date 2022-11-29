@@ -19,7 +19,7 @@ router.post("/adduser", async (req,res) =>{
     res.status(201).json(newUser);
 
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status( 400).json({message: error.message});
     }
 });
 
@@ -27,19 +27,10 @@ router.post("/adduser", async (req,res) =>{
 router.post('/validateuser',async (req,res) =>{
     const email= req.body.email;
     const password = req.body.password;
+    const pass = bcyrpt.hashSync(password,salt);
     try {
-        let user = await Users.findOne({email:email});
-        if(!user)
-        {
-            return res.status(400).json({message:"Email or password is invalid!"})
-        }
-
-        const isMatch = await bcyrpt.compare(password,user.password)
-        if(!isMatch)
-        {
-            return res.status(400).json({message:"Email or password is invalid!"})
-        }
-        res.json(user)
+        let user = await Users.findOne({email:email, password:pass}).count();
+        res.send({ count: user, message: "Email or password is invalid!" });
     }
     catch (error) {
         res.status(400).json({message: error.message});

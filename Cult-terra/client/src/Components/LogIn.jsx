@@ -1,6 +1,20 @@
 import React from 'react'
+import { useState } from 'react';
 
 const LogIn = (props) => {
+
+  const [user,setUser] = useState({
+    email: "",
+    password: ""
+  })
+
+  const [msg,setMsg] = useState("hello")
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(user);
+  }
 
   return (
     <div>
@@ -18,7 +32,7 @@ const LogIn = (props) => {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900 "
                 type={"email"}
                 name={"email"}
-                // onChange={handleChange}
+                onChange={handleChange}
                 id="emaipl"
                 placeholder="E-Mail"
               />
@@ -35,11 +49,11 @@ const LogIn = (props) => {
                 id="password"
                 type={"password"}
                 name={"password"}
-                // onChange={handleChange}
+                onChange={handleChange}
                 placeholder="******************"
               />
               <p className="text-red-500 text-xs italic">
-                {/* {!isValid ? msg : ""} */}
+                {msg}
               </p>
             </div>
             <div className="flex items-center justify-between">

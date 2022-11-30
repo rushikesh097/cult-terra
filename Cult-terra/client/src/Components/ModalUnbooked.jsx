@@ -1,58 +1,158 @@
+import axios from 'axios';
 import React from 'react'
+import { useState } from 'react';
 
-const ModalUnbooked = ({setOpenModal}) => {
-  return (
-    <div className="fixed inset-0 z-10 overflow-y-auto">
-                <div
-                    className="fixed inset-0 w-full h-full bg-black opacity-40"
-                    onClick={() => setOpenModal(false)}
-                ></div>
-                <div className="flex items-center min-h-screen px-4 py-8">
-                    <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
-                        <div className="mt-3 sm:flex">
-                            <div className="flex items-center justify-center flex-none w-12 h-12 mx-auto bg-red-100 rounded-full">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-6 h-6 text-red-600"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-                            </div>
-                            <div className="mt-2 text-center sm:ml-4 sm:text-left">
-                                <h4 className="text-lg font-medium text-gray-800">
-                                    Status Unbooked
-                                </h4>
-                                <p className="mt-2 text-[15px] leading-relaxed text-gray-500">
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </p>
-                                <div className="items-center gap-2 mt-3 sm:flex">
-                                    <button
-                                        className="w-full mt-2 p-2.5 flex-1 text-white bg-red-600 rounded-md outline-none ring-offset-2 ring-red-600 focus:ring-2"
-                                        onClick={() => setOpenModal(false)}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
-                                        onClick={() => setOpenModal(false)}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+const ModalUnbooked = (props) => {
+    const [customer, setCustomer] = useState({
+      name: "",
+      roomNo: props.roomNo,
+      checkOutDate: new Date().toISOString().slice(0,10)
+    });
+    const [msg,setMsg] = useState("")
+    const handleChange = (e) => {
+        e.preventDefault();
+        setMsg("")
+        setCustomer((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+    const updateRoomStatus = () => {
+        axios.put(`http://localhost:5000/rooms/upadtestatus/${props.roomNo}/booked`)
+        .then((response) => {
+            props.setRooms((rooms) => {
+                return rooms.map((room,index) => {
+                  return room.roomNo === props.roomNo
+                    ? {
+                        _id: room._id,
+                        roomNo: props.roomNo,
+                        floorNo: room.floorNo,
+                        price: room.price,
+                        status: "booked",
+                        type: room.type,
+                      }
+                    : room;
+                });
+            })
+        })
+        .catch(err => console.log(err));
+    }
+
+    const addCustomer = (e) => {
+        e.preventDefault();
+        if (customer.name !== "") {
+          axios
+            .post("http://localhost:5000/customer/addcustomer", customer)
+            .then((response) => {
+                props.setOpenModal(false);
+                updateRoomStatus();
+            })
+            .catch((err) => console.log(err));
+            return;
+        }
+        setMsg("Fill the name !")
+    }
+
+    return (
+      <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div
+          className="fixed inset-0 w-full h-full bg-black opacity-40"
+          onClick={() => props.setOpenModal(false)}
+        ></div>
+        <div className="flex items-center min-h-screen px-4 py-8">
+          <div className="relative w-full max-w-md p-4 mx-auto bg-white rounded-md shadow-lg">
+            <div className="mt-3 sm:flex">
+              <div className="mt-2 text-center sm:ml-4 sm:text-left">
+                <div className="text-center">
+                  <h4 className="text-lg font-medium text-gray-800">
+                    Book Room
+                  </h4>
                 </div>
+                <form className="w-96">
+                  <div className="mb-6">
+                    <label
+                      className="block text-indigo-900 text-sm font-bold mb-6"
+                      htmlFor="email"
+                    >
+                      Name
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900 "
+                      type={"text"}
+                      name={"name"}
+                      onChange={handleChange}
+                      id="emaipl"
+                      placeholder="Name.."
+                    />
+                    <p className="text-red-500 text-xs italic">{msg}</p>
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      className="block text-indigo-900 text-sm font-bold mb-6"
+                      htmlFor="email"
+                    >
+                      Room No
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900 disabled:bg-gray-300 cursor-not-allowed"
+                      type={"number"}
+                      name={"roomNo"}
+                      value={props.roomNo}
+                      disabled={true}
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      className="block text-indigo-900 text-sm font-bold mb-6"
+                      htmlFor="email"
+                    >
+                      Check-In Date
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900 disabled:bg-gray-300 cursor-not-allowed"
+                      type={"date"}
+                      name={"checkInDate"}
+                      value={`${new Date().toISOString().slice(0, 10)}`}
+                      disabled={true}
+                      placeholder="E-Mail"
+                    />
+                  </div>
+                  <div className="mb-6">
+                    <label
+                      className="block text-indigo-900 text-sm font-bold mb-6"
+                      htmlFor="email"
+                    >
+                      Check-Out Date
+                    </label>
+                    <input
+                      className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900"
+                      type={"date"}
+                      name={"checkOutDate"}
+                      onChange={handleChange}
+                      min={new Date().toISOString().slice(0, 10)}
+                      value={`${customer.checkOutDate}`}
+                      placeholder="E-Mail"
+                    />
+                  </div>
+                </form>
+                <div className="items-center gap-2 mt-3 sm:flex">
+                  <button
+                    className="w-full mt-2 p-2.5 flex-1 text-white bg-green-600 rounded-md outline-none ring-offset-2 ring-green-600 focus:ring-2"
+                    onClick={addCustomer}
+                  >
+                    Book
+                  </button>
+                  <button
+                    className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-red-600 focus:ring-2"
+                    onClick={() => props.setOpenModal(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
-  )
-}
+          </div>
+        </div>
+      </div>
+    );
+};
 
 export default ModalUnbooked

@@ -8,6 +8,7 @@ const DashBoard = (props) => {
   const [rooms, setRooms] = useState([]);
   const [showUnbookedModal, setShowUnbookedModal] = useState(false);
   const [showbookedModal, setShowbookedModal] = useState(false);
+  const [roomNo,setRoomNo] = useState(0)
 
   useEffect(() => {
     getRooms();
@@ -33,16 +34,28 @@ const DashBoard = (props) => {
       <div className="min-h-screen flex items-center">
         <div className="flex-1 max-w-4xl mx-auto ">
           <ul className="grid grid-cols-8 grid-rows-5 gap-8">
-            {rooms.map((room,index)=>(
-              <button key={room._id} className={`${ room.status=== 'booked' ? " bg-green-400 " :" bg-red-400 "} rounded-lg shadow-xl hover:shadow-lg text-center align-text-top w-24 h-24 font-bold`} type="button"
-                onClick={() => {
-                    room.status==='unbooked'?setShowUnbookedModal(true):setShowbookedModal(true)
-                }}>{room.roomNo}</button> 
-            ))}
+            {rooms.map((room,index)=> {
+              const flag = room.status !== "booked";
+              return <button
+                  key={room._id}
+                  className={`${
+                    flag ? " bg-green-400 " : " bg-red-400 "
+                  } rounded-lg shadow-xl hover:shadow-lg text-center align-text-top w-24 h-24 font-bold`}
+                  type="button"
+                  onClick={() => {
+                    setRoomNo(room.roomNo);
+                    console.log(roomNo);
+                    setShowUnbookedModal(flag);
+                    setShowbookedModal(!flag);
+                  }}
+                >
+                  {room.roomNo}
+                </button>; 
+            })}
           </ul>
         </div>
       </div>
-      {showUnbookedModal && <ModalUnbooked setOpenModal={setShowUnbookedModal}></ModalUnbooked> }
+      {showUnbookedModal && <ModalUnbooked setOpenModal={setShowUnbookedModal} roomNo={roomNo} setRooms={setRooms}></ModalUnbooked> }
       {showbookedModal && <ModalBooked setOpenModal={setShowbookedModal}></ModalBooked> }
     </div>
   );

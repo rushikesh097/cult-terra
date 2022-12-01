@@ -6,13 +6,14 @@ import Dashboard from "./Components/Dashboard"
 function App() {
 
   const [isOnDashboard,setIsOnDashboard] = useState(false);
+  const [getEmail,setEmail] = useState("")
 
   return (
-    <div>
+    <div className="antialiased pb-14">
       {
         isOnDashboard ?
-        <Dashboard setIsOnDashboard={setIsOnDashboard} /> :
-        <Authentication setIsOnDashboard={setIsOnDashboard} />
+        <Dashboard setIsOnDashboard={setIsOnDashboard} email= {getEmail} /> :
+        <Authentication setIsOnDashboard={setIsOnDashboard} setEmail={setEmail} />
       }
     </div>
   );

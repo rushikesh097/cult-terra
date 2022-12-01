@@ -21,4 +21,13 @@ router.put("/upadtestatus/:roomNo/:status", (req, res) => {
         }).catch(err => console.log(err));
 });
 
+router.put("/updateprice/:roomNo/:price",(req,res) =>{
+        Rooms.findOneAndUpdate(
+          {roomNo: req.params.roomNo},
+          {price: req.params.price}
+        ).then((result)=>{
+          res.send(result)
+        }).catch(err=> console.log(err))
+})
+
 module.exports = router;

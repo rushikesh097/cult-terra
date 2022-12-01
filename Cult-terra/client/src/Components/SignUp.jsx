@@ -44,16 +44,22 @@ const SignUp = (props) => {
     <div>
       <div className="flex justify-center mt-20">
         <div className="w-30 sm:w-80 lg:w-96">
-          <form className="bg-indigo-200 shadow-2xl shadow-indigo-500 rounded-md px-8 pt-6 pb-8 mb-4">
+          <form className="bg-indigo-200 shadow-2xl shadow-black rounded-md px-8 pt-6 pb-8 mb-4 mt-10">
+          <a href="#" className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900 place-content-center ">
+          <svg className="h-6 w-7 mr-1 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" fill="#2b3344"  d="M21.5,21H20V7.5A.49.49,0,0,0,19.66,7L16,5.47V21H15V3.5a.5.5,0,0,0-.5-.5h-9a.5.5,0,0,0-.5.5V21H3.5a.5.5,0,0,0,0,1h18a.5.5,0,0,0,0-1Zm-4-12h1a.5.5,0,0,1,.5.5.51.51,0,0,1-.5.5h-1a.51.51,0,0,1-.5-.5A.5.5,0,0,1,17.5,9Zm0,3h1a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3h1a.51.51,0,0,1,.5.5.5.5,0,0,1-.5.5h-1a.5.5,0,0,1-.5-.5A.51.51,0,0,1,17.5,15Zm0,3h1a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1ZM11,6h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1ZM7.94,6H9A.5.5,0,0,1,9,7h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm2.56,6V19h-1v2h-1V18.47A.5.5,0,0,1,9,18h2a.5.5,0,0,1,.5.5V21Z" />
+                </svg>
+            <h1 className="font-bold text-xl align-text-bottom	">Cult-terra</h1>
+          </a>
             <div className="mb-6">
               <label
-                className="block text-indigo-900 text-sm font-bold mb-6"
+                className="block text-black text-sm font-bold mb-6"
                 htmlFor="=name"
               >
                 Name
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-900"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-black"
                 type={"text"}
                 name={"name"}
                 onChange={handleChange}
@@ -63,13 +69,13 @@ const SignUp = (props) => {
             </div>
             <div className="mb-6">
               <label
-                className="block text-indigo-900 text-sm font-bold mb-6"
+                className="block text-black text-sm font-bold mb-6"
                 htmlFor="email"
               >
                 E-Mail
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-indigo-900"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:border-black"
                 type={"email"}
                 name={"email"}
                 onChange={handleChange}
@@ -79,18 +85,18 @@ const SignUp = (props) => {
             </div>
             <div className="mb-6">
               <label
-                className="block text-indigo-900 text-sm font-bold mb-6"
+                className="block text-black text-sm font-bold mb-6"
                 htmlFor="password"
               >
                 Password
               </label>
               <input
-                className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-indigo-900"
+                className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:border-black"
                 id="password"
                 type={"password"}
                 name={"password"}
                 onChange={handleChange}
-                placeholder="******************"
+                placeholder="********"
               />
               <p className="text-red-500 text-xs italic">
                 {msg}
@@ -102,14 +108,14 @@ const SignUp = (props) => {
           sm:gap-0 justify-between"
             >
               <button
-                className="bg-indigo-900 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
                 onClick={addUser}
               >
                 Sign Up
               </button>
               <button
-                className="inline-block align-baseline font-bold text-indigo-900
+                className="inline-block align-baseline font-bold text-black
               sm:text-sm
               sm:ml-1
               hover:text-indigo-700 cursor-pointer text-xs"

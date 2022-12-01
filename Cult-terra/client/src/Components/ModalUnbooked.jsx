@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
+import { LINK_CUSTOMER, LINK_ROOMS } from '../Data';
 
 const ModalUnbooked = (props) => {
     const [customer, setCustomer] = useState({
@@ -16,7 +17,7 @@ const ModalUnbooked = (props) => {
     }
 
     const updateRoomStatus = () => {
-        axios.put(`http://localhost:5000/rooms/upadtestatus/${props.roomNo}/booked`)
+        axios.put(`${LINK_ROOMS}upadtestatus/${props.roomNo}/booked`)
         .then((response) => {
             props.setRooms((rooms) => {
                 return rooms.map((room,index) => {
@@ -40,10 +41,10 @@ const ModalUnbooked = (props) => {
         e.preventDefault();
         if (customer.name !== "") {
           axios
-            .post("http://localhost:5000/customer/addcustomer", customer)
+            .post(`${LINK_CUSTOMER}addcustomer`, customer)
             .then((response) => {
-                props.setOpenModal(false);
-                updateRoomStatus();
+              props.setOpenModal(false);
+              updateRoomStatus();
             })
             .catch((err) => console.log(err));
             return;

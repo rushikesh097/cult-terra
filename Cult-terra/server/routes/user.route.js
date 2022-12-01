@@ -7,20 +7,14 @@ const router = express.Router()
 const salt = "$2a$10$llw0G6IyibUob8h5XRt9xuRczaGdCm/AiV6SSjf5v78XS824EGbh"
 
 router.post("/adduser", async (req,res) =>{
-
-    try {
-    
     const name = req.body.name;
     const email = req.body.email;
     const password = bcyrpt.hashSync(req.body.password,salt);
-    
-    const user = new Users({name:name,email:email,password:password})
-    const newUser = await user.save();
-    res.status(201).json(newUser);
-
-    } catch (error) {
-        res.status( 400).json({message: error.message});
-    }
+    Users.create({name:name,email:email,password:password})
+    .then((result) => {
+        res.send(result);
+    })
+    .catch(err => console.log(err));
 });
 
 
@@ -28,13 +22,11 @@ router.post('/validateuser',async (req,res) =>{
     const email= req.body.email;
     const password = req.body.password;
     const pass = bcyrpt.hashSync(password,salt);
-    try {
-        let user = await Users.findOne({email:email, password:pass}).count();
-        res.send({ count: user, message: "Email or password is invalid!" });
-    }
-    catch (error) {
-        res.status(400).json({message: error.message});
-    }
+    Users.findOne({ email: email, password: pass })
+    .then((result) => {
+        res.send(result);
+    })
+    .catch(err => console.log(err));
 });
 
 module.exports = router

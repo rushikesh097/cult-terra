@@ -7,17 +7,18 @@ const Authentication = (props) => {
   const [isOnLogin, setIsOnLogin] = useState(true);
 
   return (
-    <div className=" max-h-full ">
+    <div className="max-h-full">
     {isOnLogin ? (
         <LogIn
           setIsOnLogin={setIsOnLogin}
           setIsOnDashboard={props.setIsOnDashboard}
-          setEmail = {props.setEmail}
+          setName = {props.setName}
         />
       ) : (
         <SignUp
           setIsOnLogin={setIsOnLogin}
           setIsOnDashboard={props.setIsOnDashboard}
+          setName={props.setName}
         />
       )}
     </div>

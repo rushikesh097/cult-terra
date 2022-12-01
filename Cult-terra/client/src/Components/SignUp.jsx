@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import axios from "axios"
+import { FILL_ALL_DATA, INVALID_EMAIL, LINK_USER, PATTERN } from '../Data';
 
 const SignUp = (props) => {
 
@@ -19,17 +20,20 @@ const SignUp = (props) => {
 
   const addUser = (e) => {
     e.preventDefault();
-    if(user.name!=="" && user.email!=="" && user.password!==""){
+    if(!PATTERN.test(user.email)){
+      setMsg(INVALID_EMAIL);
+      return;
+    }
+    else if(user.name!=="" && user.password!==""){
       axios
-        .post(`http://localhost:5000/user/adduser`, {
+        .post(`${LINK_USER}adduser`, {
           name: user.name,
           email: user.email,
           password: user.password,
         })
         .then((response) => {
-          console.log(response);
+          props.setName(response.data.name);
           props.setIsOnDashboard(true);
-          setMsg(response.data.message);
         })
         .catch((err) => {
           console.log(err);
@@ -37,7 +41,7 @@ const SignUp = (props) => {
         });
         return;
     }
-    setMsg("Fill all data !");
+    setMsg(FILL_ALL_DATA);
   };
 
   return (
@@ -45,12 +49,28 @@ const SignUp = (props) => {
       <div className="flex justify-center mt-20">
         <div className="w-30 sm:w-80 lg:w-96">
           <form className="bg-indigo-200 shadow-2xl shadow-black rounded-md px-8 pt-6 pb-8 mb-4 mt-10">
-          <a href="#" className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900 place-content-center ">
-          <svg className="h-6 w-7 mr-1 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" fill="#2b3344"  d="M21.5,21H20V7.5A.49.49,0,0,0,19.66,7L16,5.47V21H15V3.5a.5.5,0,0,0-.5-.5h-9a.5.5,0,0,0-.5.5V21H3.5a.5.5,0,0,0,0,1h18a.5.5,0,0,0,0-1Zm-4-12h1a.5.5,0,0,1,.5.5.51.51,0,0,1-.5.5h-1a.51.51,0,0,1-.5-.5A.5.5,0,0,1,17.5,9Zm0,3h1a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3h1a.51.51,0,0,1,.5.5.5.5,0,0,1-.5.5h-1a.5.5,0,0,1-.5-.5A.51.51,0,0,1,17.5,15Zm0,3h1a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1ZM11,6h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1ZM7.94,6H9A.5.5,0,0,1,9,7h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm2.56,6V19h-1v2h-1V18.47A.5.5,0,0,1,9,18h2a.5.5,0,0,1,.5.5V21Z" />
-                </svg>
-            <h1 className="font-bold text-xl align-text-bottom	">Cult-terra</h1>
-          </a>
+            <a
+              href="#"
+              className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900 place-content-center "
+            >
+              <svg
+                className="h-6 w-7 mr-1 text-blue-400"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 21 21"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="#2b3344"
+                  d="M21.5,21H20V7.5A.49.49,0,0,0,19.66,7L16,5.47V21H15V3.5a.5.5,0,0,0-.5-.5h-9a.5.5,0,0,0-.5.5V21H3.5a.5.5,0,0,0,0,1h18a.5.5,0,0,0,0-1Zm-4-12h1a.5.5,0,0,1,.5.5.51.51,0,0,1-.5.5h-1a.51.51,0,0,1-.5-.5A.5.5,0,0,1,17.5,9Zm0,3h1a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3h1a.51.51,0,0,1,.5.5.5.5,0,0,1-.5.5h-1a.5.5,0,0,1-.5-.5A.51.51,0,0,1,17.5,15Zm0,3h1a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1ZM11,6h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1Zm0,3h1a.5.5,0,1,1,0,1H11a.5.5,0,0,1,0-1ZM7.94,6H9A.5.5,0,0,1,9,7h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm0,3H9a.5.5,0,0,1,0,1h-1a.5.5,0,0,1,0-1Zm2.56,6V19h-1v2h-1V18.47A.5.5,0,0,1,9,18h2a.5.5,0,0,1,.5.5V21Z"
+                />
+              </svg>
+              <h1 className="font-bold text-xl align-text-bottom	">
+                Cult-terra
+              </h1>
+            </a>
             <div className="mb-6">
               <label
                 className="block text-black text-sm font-bold mb-6"
@@ -98,9 +118,7 @@ const SignUp = (props) => {
                 onChange={handleChange}
                 placeholder="********"
               />
-              <p className="text-red-500 text-xs italic">
-                {msg}
-              </p>
+              <p className="text-red-500 text-xs italic">{msg}</p>
             </div>
 
             <div
@@ -108,7 +126,7 @@ const SignUp = (props) => {
           sm:gap-0 justify-between"
             >
               <button
-                className="bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-[#333b4b] hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
                 onClick={addUser}
               >
@@ -120,7 +138,6 @@ const SignUp = (props) => {
               sm:ml-1
               hover:text-indigo-700 cursor-pointer text-xs"
                 onClick={() => {
-                  // setText("Sign Up");
                   props.setIsOnLogin((isOnLogin) => !isOnLogin);
                 }}
               >

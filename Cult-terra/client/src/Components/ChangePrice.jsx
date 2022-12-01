@@ -1,13 +1,14 @@
 import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
+import { LINK_ROOMS } from '../Data'
 
 const ChangePrice = (props) => {
 
   const [newPrice, setNewPrice] = useState(props.showRoomPrice)
 
   const updatePrice = () =>{
-    axios.put(`http://localhost:5000/rooms/updateprice/${props.roomNo}/${newPrice}`)
+    axios.put(`${LINK_ROOMS}updateprice/${props.roomNo}/${newPrice}`)
     .then((response)=>{
       props.setRooms((rooms) => {
         return rooms.map((room,index) => {
@@ -66,10 +67,9 @@ const ChangePrice = (props) => {
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-indigo-900 leading-tight focus:outline-none focus:border-indigo-900 "
                   type={"number"}
-                  name={"name"}
-                  id="emaipl"
                   placeholder="Price"
-                  onChange={(e) => { setNewPrice(e.target.value)}}
+                  min={"0"}
+                  onChange={(e) => { setNewPrice(Math.abs(e.target.value))}}
                 />
 
                 <div className="items-center gap-2 mt-3 sm:flex">

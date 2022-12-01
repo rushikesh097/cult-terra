@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { LINK_CUSTOMER, LINK_ROOMS } from '../Data';
 
 const Modalbooked = (props) => {
 
@@ -11,16 +12,16 @@ const Modalbooked = (props) => {
     }, [])
     
     const getCustomerInfo = () =>{
-        axios.get(`http://localhost:5000/customer/getcustomer/${props.roomNo}`)
+        axios.get(`${LINK_CUSTOMER}getcustomer/${props.roomNo}`)
         .then((response) =>{
             setCustomerInfo(response.data[0]);
-            console.log(response.data);
         })
+        .catch(err => console.log(err));
     }
 
 
     const updateRoomStatus = () => {
-        axios.put(`http://localhost:5000/rooms/upadtestatus/${props.roomNo}/unbooked`)
+        axios.put(`${LINK_ROOMS}upadtestatus/${props.roomNo}/unbooked`)
         .then((response) => {
             props.setRooms((rooms) => {
                 return rooms.map((room,index) => {
@@ -41,7 +42,7 @@ const Modalbooked = (props) => {
     }
 
     const deleteCustomer = () => {
-        axios.delete(`http://localhost:5000/customer/deletecustomer/${customerInfo._id}`)
+        axios.delete(`${LINK_CUSTOMER}deletecustomer/${customerInfo._id}`)
         .then((response)=>{
             props.setOpenModal(false)
             updateRoomStatus();

@@ -28,8 +28,8 @@ const LogIn = (props) => {
     if (!PATTERN.test(user.email)) {
       setMsg(INVALID_EMAIL);
       return;
-    } else if (user.password !== "") {
-      console.log(user);
+    } 
+    else if (user.password !== "") {
       axios
         .post(`${LINK_USER}validateuser`, {
           email: user.email,

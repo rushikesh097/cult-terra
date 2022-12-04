@@ -6,6 +6,7 @@ import ChangePrice from "./ChangePrice";
 import axios from "axios";
 import { Navbar } from "./Navbar";
 import { LINK_ROOMS } from "../Data";
+import Card from "./Card";
 
 const DashBoard = (props) => {
   const [rooms, setRooms] = useState([]);
@@ -36,35 +37,7 @@ const DashBoard = (props) => {
                 {rooms.map((room, index) => {
                   const flag = room.status !== "booked";
                   return (
-                    <>
-                      <span className="relative inline-block" key={room._id}>
-                        <span
-                          className="absolute top-1 right-4 inline-flex items-center justify-center cursor-pointer hover:bg-yellow-500 px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-yellow-600 rounded-full"
-                          onClick={() => {
-                            setShowChangePriceModal(true);
-                            setShowRoomPrice(room.price);
-                            setRoomNo(room.roomNo);
-                          }}
-                        >{`Price- ${room.price}`}</span>
-                        <div
-                          data-tooltip-target="tooltip-default"
-                          className={`${
-                            flag ? " bg-green-400 " : " bg-red-400 "
-                          } rounded-lg shadow-xl hover:shadow-lg px-2 w-36 h-24 align-middle cursor-pointer`}
-                          type="button"
-                          onClick={() => {
-                            setRoomNo(room.roomNo);
-                            setShowUnbookedModal(flag);
-                            setShowbookedModal(!flag);
-                          }}
-                        >
-                          <div className="text-lg font-bold pt-6 pb-2 pl-2">
-                            {room.roomNo}
-                          </div>
-                          <div className="text-base pl-2">{room.type}</div>
-                        </div>
-                      </span>
-                    </>
+                    <Card setShowChangePriceModal={setShowChangePriceModal} setShowRoomPrice={setShowRoomPrice} setRoomNo={setRoomNo} setShowUnbookedModal={setShowUnbookedModal} setShowbookedModal={setShowbookedModal} room={room} flag={flag}/>
                   );
                 })}
               </ul>
